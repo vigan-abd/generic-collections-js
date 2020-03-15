@@ -405,7 +405,7 @@ class ArrayT extends GenericType {
 
   // #### Accessor methods ####//
   /**
-   * @param  {...ArrayT} values
+   * @param  {...(ArrayT|Array)} values
    * @returns {ArrayT}
    */
   concat (...values) {

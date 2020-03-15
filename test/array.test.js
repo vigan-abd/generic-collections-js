@@ -28,6 +28,52 @@ module.exports = () => {
       expect(personCollection[1].name).to.be.equal('jane doe')
     })
 
+    it('concat - it should fail contating invalid types', () => {
+      const arr = new ArrayT('number', 1, 2)
+      expect(() => arr.concat([3, 4], '5')).to.throw() // 5 throws
+      expect(() => arr.concat(new ArrayT('string', '5', '6'))).to.throw()
+    })
+
+    it('concat - it should work similar like arrays', () => {
+      const array1 = new ArrayT('string', 'a', 'b', 'c')
+      const array2 = new ArrayT('string', 'd', 'e', 'f')
+      const array3 = array1.concat(array2)
+
+      expect(array3).to.be.instanceof(ArrayT)
+      expect(array3.toArray()).to.be.eql(['a', 'b', 'c', 'd', 'e', 'f'])
+      expect(array1.toArray()).to.be.eql(['a', 'b', 'c'])
+    })
+
+    it('concat - it should accept also primitive arrays as arguments', () => {
+      const arr = new ArrayT('number', 1, 2)
+      expect(arr.concat([3, 4]).toArray()).to.be.eql([1, 2, 3, 4])
+    })
+
+    it('concat - it should concatenate more than two arrays', () => {
+      const num1 = new ArrayT('number', 1, 2, 3)
+      const num2 = new ArrayT('number', 4, 5, 6)
+      const num3 = new ArrayT('number', 7, 8, 9)
+      const numbers = num1.concat(num2, num3).toArray()
+
+      expect(numbers).to.be.eql([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    })
+
+    it('concat - it should concatenate values to an arrays', () => {
+      const num1 = new ArrayT('number', 1, 2, 3)
+      const num2 = new ArrayT('number', 7, 8, 9)
+      const numbers = num1.concat(4, 5, 6, num2).toArray()
+
+      expect(numbers).to.be.eql([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    })
+
+    it('concat - it should concatenate nested arrays', () => {
+      const num1 = new ArrayT(Array, [1, 2, 3])
+      const num2 = new ArrayT(Array, [7, 8], [9])
+      const numbers = num1.concat([[4], [5]], [[6]], num2).toArray()
+
+      expect(numbers).to.be.eql([[1, 2, 3], [4], [5], [6], [7, 8], [9]])
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
