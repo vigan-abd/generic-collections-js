@@ -4,9 +4,12 @@ const { INDEX_SYM } = require('./constants')
 const GenericType = require('./generic')
 
 const compare = (a, b) => {
-  if (a < b) {
+  const first = a.toString()
+  const second = b.toString()
+
+  if (first < second) {
     return -1
-  } else if (a > b) {
+  } else if (first > second) {
     return 1
   } else {
     return 0
@@ -53,7 +56,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(value, index?, array?) => boolean} cb
+   * @param {(value: any, index?: number, array?: ArrayT) => boolean} cb
    * @param {*} thisArg
    * @returns {boolean}
    */
@@ -69,7 +72,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(value, index?, array?) => boolean} cb
+   * @param {(value: any, index?: number, array?: ArrayT) => boolean} cb
    * @param {*} thisArg
    * @returns {*}
    */
@@ -83,7 +86,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(value, index?, array?) => boolean} cb
+   * @param {(value: any, index?: number, array?: ArrayT) => boolean} cb
    * @param {*} thisArg
    * @returns {number}
    */
@@ -99,7 +102,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(value, index?, array?) => void} cb
+   * @param {(value: any, index?: number, array?: ArrayT) => void} cb
    * @param {*} thisArg
    */
   forEach (cb, thisArg = null) {
@@ -127,7 +130,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(value, index?, array?) => any} cb
+   * @param {(value: any, index?: number, array?: ArrayT) => any} cb
    * @param {*} thisArg
    * @returns {ArrayT}
    */
@@ -145,7 +148,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(accumulator, currentValue, index?, array?) => any} cb
+   * @param {(accumulator, currentvalue: any, index?: number, array?: ArrayT) => any} cb
    * @param {*} initVal
    * @returns {*}
    */
@@ -165,7 +168,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(accumulator, currentValue, index?, array?) => any} cb
+   * @param {(accumulator, currentvalue: any, index?: number, array?: ArrayT) => any} cb
    * @param {*} initVal
    * @returns {*}
    */
@@ -186,7 +189,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(value, index?, array?) => boolean} cb
+   * @param {(value: any, index?: number, array?: ArrayT) => boolean} cb
    * @param {*} thisArg
    * @returns {boolean}
    */
@@ -316,7 +319,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(a, b) => number} cb
+   * @param {(a: any, b: any) => number} cb
    * @returns {ArrayT}
    */
   sort (cb = null) {
@@ -420,7 +423,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(value, index?, array?) => boolean} cb
+   * @param {(value: any, index?: number, array?: ArrayT) => boolean} cb
    * @param {*} thisArg
    * @returns {ArrayT}
    */
@@ -552,7 +555,7 @@ class ArrayT extends GenericType {
   }
 
   /**
-   * @param {(value, index?, array?) => any} cb
+   * @param {(value: any, index?: number, array?: ArrayT) => any} cb
    * @param {*} thisArg
    * @returns {Array}
    */
