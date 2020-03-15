@@ -7,9 +7,11 @@ class ArrayT extends GenericType {
   /**
    * @param {string|Function} type
    */
-  constructor (type) {
+  constructor (type, ...values) {
     super(type)
     this[INDEX_SYM] = 0
+
+    this.push(...values)
   }
 
   * [Symbol.iterator] () {

@@ -17,6 +17,17 @@ class Person {
 
 module.exports = () => {
   describe('# array-tests', () => {
+    it('constructor - it should support initial values in constructor', () => {
+      const numArray = new ArrayT('number', 2, 3)
+
+      expect(numArray[0]).to.be.equal(2)
+      expect(numArray[1]).to.be.equal(3)
+
+      const personCollection = new ArrayT(Person, new Person('john doe'), new Person('jane doe'))
+      expect(personCollection[0].name).to.be.equal('john doe')
+      expect(personCollection[1].name).to.be.equal('jane doe')
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)

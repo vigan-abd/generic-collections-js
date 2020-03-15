@@ -3,11 +3,11 @@
 const { ArrayT } = require('../index')
 
 // Primitive type example //
-const numArray = new ArrayT('number')
-numArray.push(2, 3)
-console.log(numArray.toString()) // 2,3
-console.log(JSON.stringify(numArray)) // [2,3]
-console.log(numArray.toArray()) // [ 2, 3 ]
+const numArray = new ArrayT('number', 2, 3)
+numArray.push(4, 5)
+console.log(numArray.toString()) // 2,3,4,5
+console.log(JSON.stringify(numArray)) // [2,3,4,5]
+console.log(numArray.toArray()) // [ 2, 3, 4, 5 ]
 
 console.log('for loop')
 for (let i = 0; i < numArray.length; i++) {
