@@ -118,6 +118,92 @@ module.exports = () => {
       }
     })
 
+    it('every - it return true in case if all items matches the rule', () => {
+      const arr = new ArrayT('number', 1, 30, 39, 29, 10, 13)
+
+      function isBelowThreshold (currentValue) {
+        return currentValue < 40
+      }
+
+      expect(arr.every(isBelowThreshold)).to.be.true()
+      expect(arr.every(function (currentValue) { return currentValue < 40 })).to.be.true()
+      expect(arr.every((currentValue) => currentValue < 40)).to.be.true()
+    })
+
+    it('every - it return false in case if at least one item fails the rule', () => {
+      const arr = new ArrayT('number', 1, 30, 39, 29, 10, 13)
+
+      function isBelowThreshold (currentValue) {
+        return currentValue < 20
+      }
+
+      expect(arr.every(isBelowThreshold)).to.be.false()
+      expect(arr.every(function (currentValue) { return currentValue < 20 })).to.be.false()
+      expect(arr.every((currentValue) => currentValue < 20)).to.be.false()
+    })
+
+    it('every - it support all arguments like arrays', () => {
+      const arr = new ArrayT('number', 1, 30, 39, 29, 10, 13)
+      const primitive = [1, 30, 39, 29, 10, 13]
+
+      expect(
+        arr.every(function (value, index, array) {
+          expect(value).to.be.equal(primitive[index])
+          expect(index).to.be.a('number')
+          expect(array).to.be.equal(arr)
+          expect(this).to.be.equal('test')
+
+          return value < 40
+        }, 'test')
+      ).to.be.true()
+
+      expect(
+        arr.every((value, index, array) => {
+          expect(value).to.be.equal(primitive[index])
+          expect(index).to.be.a('number')
+          expect(array).to.be.equal(arr)
+          expect(this).not.to.be.equal('test')
+
+          return value < 40
+        }, 'test')
+      ).to.be.true()
+    })
+
+    it('every - it support changes on initial array (modifying, appending, and deleting)', () => {
+      let arr = new ArrayT('number', 1, 2, 3, 4)
+      // modify
+      expect(
+        arr.every((elem, index, arr) => {
+          arr[index + 1] -= 3
+          return elem < 2
+        })
+      ).to.be.equal(true)
+
+      arr = new ArrayT('number', 1, 2, 3)
+      // append
+      let i = 0
+      expect(
+        arr.every((elem, index, arr) => {
+          arr.push(4)
+          i = index
+          return elem < 4
+        })
+      ).to.be.false()
+      expect(i).to.be.equal(3)
+
+      // delete
+      arr = new ArrayT('number', 1, 2, 3, 4)
+      i = 0
+      expect(
+        arr.every((elem, index, arr) => {
+          arr.pop()
+          i = index
+          return elem < 4
+        })
+      ).to.be.true()
+      expect(i).to.be.equal(1)
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
