@@ -100,6 +100,24 @@ module.exports = () => {
       ).to.eql([1, 2, 3, 3, 4])
     })
 
+    it('entries - it should work similar like arrays', () => {
+      const arr = new ArrayT('string', 'a', 'b', 'c')
+      const iter = arr.entries()
+
+      expect(iter.next()).to.eql({ value: [0, 'a'], done: false })
+      expect(iter.next()).to.eql({ value: [1, 'b'], done: false })
+      expect(iter.next()).to.eql({ value: [2, 'c'], done: false })
+      expect(iter.next()).to.eql({ value: undefined, done: true })
+
+      const primitive = ['a', 'b', 'c']
+      let i = 0
+      for (const [index, element] of arr.entries()) {
+        expect(index).to.be.equal(i)
+        expect(element).to.be.equal(primitive[i])
+        i++
+      }
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
