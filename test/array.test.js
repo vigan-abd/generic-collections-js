@@ -74,6 +74,32 @@ module.exports = () => {
       expect(numbers).to.be.eql([[1, 2, 3], [4], [5], [6], [7, 8], [9]])
     })
 
+    it('copyWithin - it should work similar like arrays', () => {
+      const strArr = new ArrayT('string', 'a', 'b', 'c', 'd', 'e')
+      strArr.copyWithin(0, 3, 4)
+
+      expect(strArr.toArray()).to.eql(['d', 'b', 'c', 'd', 'e'])
+
+      strArr.copyWithin(1, 3)
+      expect(strArr.toArray()).to.eql(['d', 'd', 'e', 'd', 'e'])
+
+      expect(
+        new ArrayT('number', 1, 2, 3, 4, 5).copyWithin(-2).toArray()
+      ).to.eql([1, 2, 3, 1, 2])
+
+      expect(
+        new ArrayT('number', 1, 2, 3, 4, 5).copyWithin(0, 3).toArray()
+      ).to.eql([4, 5, 3, 4, 5])
+
+      expect(
+        new ArrayT('number', 1, 2, 3, 4, 5).copyWithin(0, 3, 4).toArray()
+      ).to.eql([4, 2, 3, 4, 5])
+
+      expect(
+        new ArrayT('number', 1, 2, 3, 4, 5).copyWithin(-2, -3, -1).toArray()
+      ).to.eql([1, 2, 3, 3, 4])
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
