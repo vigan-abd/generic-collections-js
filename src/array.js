@@ -249,7 +249,7 @@ class ArrayT extends GenericType {
    * @param {number} end
    * @returns {ArrayT}
    */
-  fill (value, start = 0, end = -1) {
+  fill (value, start = 0, end = null) {
     this.verifyType(value)
 
     start = start < 0 ? this.length + start : start

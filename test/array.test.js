@@ -204,6 +204,29 @@ module.exports = () => {
       expect(i).to.be.equal(1)
     })
 
+    it('fill - it should throw on invalid fill type', () => {
+      const arr = new ArrayT('number', 1, 2, 3, 4)
+      expect(() => arr.fill('3')).to.throw()
+    })
+
+    it('fill - it should behave similar like array', () => {
+      const arr = new ArrayT('number', 1, 2, 3, 4)
+
+      expect(arr.fill(0, 2, 4)).to.be.instanceof(ArrayT)
+      expect(arr.toArray()).to.be.eql([1, 2, 0, 0])
+      expect(arr.fill(5, 1).toArray()).to.be.eql([1, 5, 5, 5])
+      expect(arr.fill(6).toArray()).to.be.eql([6, 6, 6, 6])
+
+      expect(new ArrayT('number', 1, 2, 3).fill(4).toArray()).to.be.eql([4, 4, 4])
+      expect(new ArrayT('number', 1, 2, 3).fill(4, 1).toArray()).to.be.eql([1, 4, 4])
+      expect(new ArrayT('number', 1, 2, 3).fill(4, 1, 2).toArray()).to.be.eql([1, 4, 3])
+      expect(new ArrayT('number', 1, 2, 3).fill(4, 1, 1).toArray()).to.be.eql([1, 2, 3])
+      expect(new ArrayT('number', 1, 2, 3).fill(4, 3, 3).toArray()).to.be.eql([1, 2, 3])
+      expect(new ArrayT('number', 1, 2, 3).fill(4, -3, -2).toArray()).to.be.eql([4, 2, 3])
+      expect(new ArrayT('number', 1, 2, 3).fill(4, NaN, NaN).toArray()).to.be.eql([1, 2, 3])
+      expect(new ArrayT('number', 1, 2, 3).fill(4, 3, 5).toArray()).to.be.eql([1, 2, 3])
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
