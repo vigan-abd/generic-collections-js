@@ -1,4 +1,4 @@
-# generic-collections
+# generic-collections-js
 
 This library includes generic layer for javascript collections. Currently supported generic types are depicted below:
 - `ArrayT` - Generic version of [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) type
@@ -15,7 +15,7 @@ npm run test
 
 ## Usage
 ```javascript
-const { ArrayT } = require('generic-collections')
+const { ArrayT } = require('generic-collections-js')
 
 // Primitive type example //
 const numArray = new ArrayT('number')
