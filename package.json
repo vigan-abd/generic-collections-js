@@ -1,0 +1,55 @@
+{
+  "name": "generic-collections-js",
+  "version": "0.0.1",
+  "description": "Generic type collection classes for arrays, maps and sets",
+  "main": "index.js",
+  "scripts": {
+    "format": "./node_modules/.bin/standard --fix",
+    "lint": "./node_modules/.bin/standard",
+    "test": "npm run lint && npm run unit",
+    "unit": "NODE_ENV=test ./node_modules/.bin/mocha ./test/index.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vigan-abd/generic-collections.git"
+  },
+  "engine": {
+    "node": ">=10.0"
+  },
+  "keywords": [
+    "generic",
+    "collection",
+    "array",
+    "map",
+    "set"
+  ],
+  "author": "vigan-abd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vigan-abd/generic-collections/issues"
+  },
+  "homepage": "https://github.com/vigan-abd/generic-collections#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "dirty-chai": "^2.0.1",
+    "husky": "^4.2.3",
+    "mocha": "^7.1.0",
+    "standard": "^14.3.2"
+  },
+  "standard": {
+    "globals": [
+      "it",
+      "describe",
+      "before",
+      "after",
+      "beforeEach",
+      "afterEach"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run test"
+    }
+  }
+}
