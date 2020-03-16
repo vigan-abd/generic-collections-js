@@ -1,6 +1,6 @@
 {
   "name": "generic-collections-js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Generic type collection classes for arrays, maps and sets",
   "main": "index.js",
   "scripts": {
