@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/vigan-abd/generic-collections-js.svg?branch=master)](https://travis-ci.org/vigan-abd/generic-collections-js)
 ![npm](https://img.shields.io/npm/v/generic-collections-js)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/vigan-abd/generic-collections-js.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/vigan-abd/generic-collections-js/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/vigan-abd/generic-collections-js.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/vigan-abd/generic-collections-js/context:javascript)
 
 This library includes generic layer for javascript collections. Currently supported generic types are depicted below:
 - `ArrayT` - Generic version of [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) type
