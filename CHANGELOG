@@ -1,0 +1,13 @@
+# 0.0.4
+- tests: added tests for concat, entries, every, fill methods on ArrayT
+- fix: fill end arg default value changed to null to comply with Array class
+- fix: concat jsdocs updated
+
+# 0.0.3
+- featue: array prototype functions add in ArrayT
+
+# 0.0.2
+- feature: added support for initial values in constructor of ArrayT
+
+# 0.0.1
+* Initial version
