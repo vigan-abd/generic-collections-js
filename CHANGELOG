@@ -1,3 +1,9 @@
+# 0.0.4-b
+- (docs) lgtm badges added
+
+# 0.0.4-a
+- (docs) changelog added
+
 # 0.0.4
 - tests: added tests for concat, entries, every, fill methods on ArrayT
 - fix: fill end arg default value changed to null to comply with Array class
