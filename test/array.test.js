@@ -309,6 +309,32 @@ module.exports = () => {
       expect(array[found]).to.be.undefined()
     })
 
+    it('forEach - it should behave like arrays', () => {
+      const arr = new ArrayT('number', 0, 1, 2, 3)
+      let i = 0
+      const res = arr.forEach(function (value, index, array) {
+        expect(this).to.be.equal('test')
+        expect(value).to.be.equal(i)
+        expect(index).to.be.equal(i)
+        expect(array).to.be.equal(arr)
+        i++
+      }, 'test')
+      expect(res).to.be.undefined()
+    })
+
+    it('forEach - it support changes on initial array (modifying, appending, and deleting)', () => {
+      const arr = new ArrayT('number', 0, 1, 2, 3)
+      const store = []
+      const len = arr.length
+      const res = arr.forEach((value, index, array) => {
+        array.push(index + len)
+        store.push(value)
+      })
+      expect(res).to.be.undefined()
+      expect(store).to.be.eql([0, 1, 2, 3])
+      expect(arr.toArray()).to.be.eql([0, 1, 2, 3, 4, 5, 6, 7])
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
