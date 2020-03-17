@@ -1,3 +1,7 @@
+# 0.0.5
+- tests: added tests for filter, find, findIndex, forEach methods on ArrayT
+- fix: fixed length issue on methods that accept current array in callback
+
 # 0.0.4-b
 - (docs) lgtm badges added
 
