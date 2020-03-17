@@ -284,6 +284,31 @@ module.exports = () => {
       expect(found).to.be.equal(3)
     })
 
+    it('findIndex - it should find index of element if it exists', () => {
+      const arr = new ArrayT('number', 5, 12, 8, 130, 44)
+      const found = arr.findIndex(element => element > 10)
+      expect(found).to.be.equal(1)
+    })
+
+    it('findIndex - it should return -1 if element doesn\'t exists', () => {
+      const arr = new ArrayT('number', 5, 12, 8, 13, 44)
+      const found = arr.findIndex(element => element > 50)
+      expect(found).to.be.equal(-1)
+    })
+
+    it('findIndex - it support changes on initial array (modifying, appending, and deleting)', () => {
+      const array = new ArrayT('number', 0, 1, 2, 3, 4, 5, 6)
+
+      const found = array.findIndex(function (value, index) {
+        if (index >= 2 && index <= 4) {
+          delete array[index]
+        }
+        return value > 2
+      })
+      expect(found).to.be.equal(3)
+      expect(array[found]).to.be.undefined()
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
