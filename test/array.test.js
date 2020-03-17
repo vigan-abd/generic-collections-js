@@ -260,6 +260,30 @@ module.exports = () => {
       expect(deleteWords.toArray()).to.be.eql(['spray', 'limit'])
     })
 
+    it('find - it should find element if it exists', () => {
+      const arr = new ArrayT('number', 5, 12, 8, 130, 44)
+      const found = arr.find(element => element > 10)
+      expect(found).to.be.equal(12)
+    })
+
+    it('find - it should return undefined if element doesn\'t exists', () => {
+      const arr = new ArrayT('number', 5, 12, 8, 13, 44)
+      const found = arr.find(element => element > 50)
+      expect(found).to.be.undefined()
+    })
+
+    it('find - it support changes on initial array (modifying, appending, and deleting)', () => {
+      const array = new ArrayT('number', 0, 1, 2, 3, 4, 5, 6)
+
+      const found = array.find(function (value, index) {
+        if (index >= 2 && index <= 4) {
+          delete array[index]
+        }
+        return value > 2
+      })
+      expect(found).to.be.equal(3)
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
