@@ -78,36 +78,36 @@ module.exports = () => {
       const strArr = new ArrayT('string', 'a', 'b', 'c', 'd', 'e')
       strArr.copyWithin(0, 3, 4)
 
-      expect(strArr.toArray()).to.eql(['d', 'b', 'c', 'd', 'e'])
+      expect(strArr.toArray()).to.be.eql(['d', 'b', 'c', 'd', 'e'])
 
       strArr.copyWithin(1, 3)
-      expect(strArr.toArray()).to.eql(['d', 'd', 'e', 'd', 'e'])
+      expect(strArr.toArray()).to.be.eql(['d', 'd', 'e', 'd', 'e'])
 
       expect(
         new ArrayT('number', 1, 2, 3, 4, 5).copyWithin(-2).toArray()
-      ).to.eql([1, 2, 3, 1, 2])
+      ).to.be.eql([1, 2, 3, 1, 2])
 
       expect(
         new ArrayT('number', 1, 2, 3, 4, 5).copyWithin(0, 3).toArray()
-      ).to.eql([4, 5, 3, 4, 5])
+      ).to.be.eql([4, 5, 3, 4, 5])
 
       expect(
         new ArrayT('number', 1, 2, 3, 4, 5).copyWithin(0, 3, 4).toArray()
-      ).to.eql([4, 2, 3, 4, 5])
+      ).to.be.eql([4, 2, 3, 4, 5])
 
       expect(
         new ArrayT('number', 1, 2, 3, 4, 5).copyWithin(-2, -3, -1).toArray()
-      ).to.eql([1, 2, 3, 3, 4])
+      ).to.be.eql([1, 2, 3, 3, 4])
     })
 
     it('entries - it should work similar like arrays', () => {
       const arr = new ArrayT('string', 'a', 'b', 'c')
       const iter = arr.entries()
 
-      expect(iter.next()).to.eql({ value: [0, 'a'], done: false })
-      expect(iter.next()).to.eql({ value: [1, 'b'], done: false })
-      expect(iter.next()).to.eql({ value: [2, 'c'], done: false })
-      expect(iter.next()).to.eql({ value: undefined, done: true })
+      expect(iter.next()).to.be.eql({ value: [0, 'a'], done: false })
+      expect(iter.next()).to.be.eql({ value: [1, 'b'], done: false })
+      expect(iter.next()).to.be.eql({ value: [2, 'c'], done: false })
+      expect(iter.next()).to.be.eql({ value: undefined, done: true })
 
       const primitive = ['a', 'b', 'c']
       let i = 0
@@ -188,8 +188,8 @@ module.exports = () => {
           i = index
           return elem < 4
         })
-      ).to.be.false()
-      expect(i).to.be.equal(3)
+      ).to.be.true()
+      expect(i).to.be.equal(2)
 
       // delete
       arr = new ArrayT('number', 1, 2, 3, 4)
@@ -225,6 +225,39 @@ module.exports = () => {
       expect(new ArrayT('number', 1, 2, 3).fill(4, -3, -2).toArray()).to.be.eql([4, 2, 3])
       expect(new ArrayT('number', 1, 2, 3).fill(4, NaN, NaN).toArray()).to.be.eql([1, 2, 3])
       expect(new ArrayT('number', 1, 2, 3).fill(4, 3, 5).toArray()).to.be.eql([1, 2, 3])
+    })
+
+    it('filter - it should behave like array', () => {
+      const words = new ArrayT('string', 'spray', 'limit', 'elite', 'exuberant', 'destruction', 'present')
+      const result = words.filter(word => word.length > 6)
+      expect(words.toArray()).to.be.eql(['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'])
+      expect(result.toArray()).to.be.eql(['exuberant', 'destruction', 'present'])
+    })
+
+    it('filter - it support changes on initial array (modifying, appending, and deleting)', () => {
+      let words = new ArrayT('string', 'spray', 'limit', 'exuberant', 'destruction', 'elite', 'present')
+
+      const modifiedWords = words.filter((word, index, arr) => {
+        arr[index + 1] += ' extra'
+        return word.length < 6
+      })
+      expect(modifiedWords.toArray()).to.be.eql(['spray'])
+
+      // Appending new words
+      words = new ArrayT('string', 'spray', 'limit', 'exuberant', 'destruction', 'elite', 'present')
+      const appendedWords = words.filter((word, index, arr) => {
+        arr.push('new')
+        return word.length < 6
+      })
+      expect(appendedWords.toArray()).to.be.eql(['spray', 'limit', 'elite'])
+
+      // Deleting words
+      words = new ArrayT('string', 'spray', 'limit', 'exuberant', 'destruction', 'elite', 'present')
+      const deleteWords = words.filter((word, index, arr) => {
+        arr.pop()
+        return word.length < 6
+      })
+      expect(deleteWords.toArray()).to.be.eql(['spray', 'limit'])
     })
 
     it('push - it should work when the type is correct', () => {

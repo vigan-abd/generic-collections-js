@@ -61,7 +61,8 @@ class ArrayT extends GenericType {
    * @returns {boolean}
    */
   every (cb, thisArg = null) {
-    for (let i = 0; i < this.length; i++) {
+    const length = this.length
+    for (let i = 0; i < length; i++) {
       if (!(i in this)) continue
       const item = this[i]
       const res = thisArg ? cb.call(thisArg, item, i, this) : cb(item, i, this)
@@ -77,7 +78,8 @@ class ArrayT extends GenericType {
    * @returns {*}
    */
   find (cb, thisArg = null) {
-    for (let i = 0; i < this.length; i++) {
+    const length = this.length
+    for (let i = 0; i < length; i++) {
       if (!(i in this)) continue
       const item = this[i]
       const res = thisArg ? cb.call(thisArg, item, i, this) : cb(item, i, this)
@@ -91,7 +93,8 @@ class ArrayT extends GenericType {
    * @returns {number}
    */
   findIndex (cb, thisArg = null) {
-    for (let i = 0; i < this.length; i++) {
+    const length = this.length
+    for (let i = 0; i < length; i++) {
       if (!(i in this)) continue
       const item = this[i]
       const res = thisArg ? cb.call(thisArg, item, i, this) : cb(item, i, this)
@@ -106,7 +109,8 @@ class ArrayT extends GenericType {
    * @param {*} thisArg
    */
   forEach (cb, thisArg = null) {
-    for (let i = 0; i < this.length; i++) {
+    const length = this.length
+    for (let i = 0; i < length; i++) {
       if (!(i in this)) continue
       const item = this[i]
 
@@ -136,7 +140,8 @@ class ArrayT extends GenericType {
    */
   map (cb, thisArg = null) {
     const res = new ArrayT(this.getType())
-    for (let i = 0; i < this.length; i++) {
+    const length = this.length
+    for (let i = 0; i < length; i++) {
       if (!(i in this)) continue
       const item = this[i]
 
@@ -160,7 +165,8 @@ class ArrayT extends GenericType {
     let acc = initVal === undefined ? this[0] : initVal
     const start = initVal === undefined ? 1 : 0
 
-    for (let i = start; i < this.length; i++) {
+    const length = this.length
+    for (let i = start; i < length; i++) {
       acc = cb(acc, this[i], i, this)
     }
 
@@ -194,7 +200,8 @@ class ArrayT extends GenericType {
    * @returns {boolean}
    */
   some (cb, thisArg = null) {
-    for (let i = 0; i < this.length; i++) {
+    const length = this.length
+    for (let i = 0; i < length; i++) {
       if (!(i in this)) continue
       const item = this[i]
       const res = thisArg ? cb.call(thisArg, item, i, this) : cb(item, i, this)
@@ -326,7 +333,8 @@ class ArrayT extends GenericType {
     if (!cb) cb = compare
 
     let i = 1
-    while (i < this.length) {
+    const length = this.length
+    while (i < length) {
       let j = i
       while (j > 0 && cb(this[j - 1], this[j]) > 0) {
         const tmp = this[j]
@@ -429,7 +437,8 @@ class ArrayT extends GenericType {
    */
   filter (cb, thisArg = null) {
     const res = new ArrayT(this.getType())
-    for (let i = 0; i < this.length; i++) {
+    const length = this.length
+    for (let i = 0; i < length; i++) {
       if (!(i in this)) continue
       const item = this[i]
 
@@ -561,7 +570,8 @@ class ArrayT extends GenericType {
    */
   mapRaw (cb, thisArg = null) {
     const res = []
-    for (let i = 0; i < this.length; i++) {
+    const length = this.length
+    for (let i = 0; i < length; i++) {
       if (!(i in this)) continue
       const item = this[i]
 
