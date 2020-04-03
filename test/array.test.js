@@ -391,6 +391,17 @@ module.exports = () => {
       expect(indices.toArray()).to.be.eql([0, 2, 4])
     })
 
+    it('join - it should behave like arrays', () => {
+      const arr1 = new ArrayT('string', 'Wind', 'Water', 'Fire')
+      expect(arr1.join()).equal(arr1.toArray().join()) // 'Wind,Water,Fire'
+      expect(arr1.join(', ')).equal(arr1.toArray().join(', ')) // 'Wind, Water, Fire'
+      expect(arr1.join(' + ')).equal(arr1.toArray().join(' + ')) // 'Wind + Water + Fire'
+      expect(arr1.join('')).equal(arr1.toArray().join('')) // 'WindWaterFire'
+
+      const arr2 = new ArrayT(Date, new Date('2019-01-03'), new Date())
+      expect(arr2.join(';')).to.be.equal(arr2.toArray().join(';'))
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
