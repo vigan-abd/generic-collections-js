@@ -632,6 +632,15 @@ module.exports = () => {
       expect(arr.toArray()).to.be.eql([0, 1, 2, 3, 6, 5, 4])
     })
 
+    it('reverse - it should behave like arrays)', () => {
+      const arr = new ArrayT('number', 0, 1, 2, 3)
+      const res = arr.reverse()
+      expect(res.toArray()).to.be.eql([3, 2, 1, 0])
+      expect(arr.toArray()).to.be.eql([3, 2, 1, 0])
+      expect(new ArrayT('number').reverse().toArray()).to.be.eql([])
+      expect(new ArrayT('string', 'a').reverse().toArray()).to.be.eql(['a'])
+    })
+
     it('toString - to string method should be like in arrays', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
