@@ -450,6 +450,16 @@ module.exports = () => {
       expect(indices.toArray()).to.be.eql([4, 2, 0])
     })
 
+    it('length - it should adjust to array length', () => {
+      const arr = new ArrayT('number', 2, 5, 9, 2)
+      expect(arr.length).to.be.equal(4)
+      arr.push(5, 6)
+      expect(arr.length).to.be.equal(6)
+      let i = 0
+      while (i < 3) { arr.pop(); i++ }
+      expect(arr.length).to.be.equal(3)
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
