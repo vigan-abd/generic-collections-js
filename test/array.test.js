@@ -335,6 +335,29 @@ module.exports = () => {
       expect(arr.toArray()).to.be.eql([0, 1, 2, 3, 4, 5, 6, 7])
     })
 
+    it('includes - it should return true if array includes element', () => {
+      expect(new ArrayT('number', 1, 2, 3).includes(2)).to.be.true()
+      expect(new ArrayT('string', 'a', 'b', 'c').includes('b')).to.be.true()
+      expect(new ArrayT('boolean', true, false).includes(false)).to.be.true()
+      expect(new ArrayT('boolean', true, false).includes(true)).to.be.true()
+    })
+
+    it('includes - it should return false if array doesn\'t include element', () => {
+      expect(new ArrayT('number', 1, 2, 3).includes(5)).to.be.false()
+      expect(new ArrayT('string', 'a', 'b', 'c').includes('d')).to.be.false()
+      expect(new ArrayT('boolean', false, false).includes(true)).to.be.false()
+    })
+
+    it('includes - it should work also with second index', () => {
+      const arr = new ArrayT('string', 'a', 'b', 'c')
+      expect(arr.includes('c', 1)).to.be.true()
+      expect(arr.includes('c', 3)).to.be.false()
+      expect(arr.includes('a', -100)).to.be.true()
+      expect(arr.includes('b', -100)).to.be.true()
+      expect(arr.includes('c', -100)).to.be.true()
+      expect(arr.includes('a', -2)).to.be.false()
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
