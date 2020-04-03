@@ -530,6 +530,13 @@ module.exports = () => {
       expect(arr.toArray()).to.be.eql([0, 1, 2, 3, 4, 5, 6, 7])
     })
 
+    it('pop - it should behave like array', () => {
+      const numArray = new ArrayT('number', 2, 3)
+      expect(numArray.pop()).to.be.equal(3)
+      expect(numArray.pop()).to.be.equal(2)
+      expect(numArray.pop()).to.be.undefined()
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
