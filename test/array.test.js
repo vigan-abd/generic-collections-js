@@ -592,6 +592,46 @@ module.exports = () => {
       expect(arr.toArray()).to.be.eql([0, 1, 2, 3, 5, 6, 7])
     })
 
+    it('reduceRight - it should behave like arrays', () => {
+      const arr = new ArrayT('number', 1, 2, 3, 4)
+      const maxCallback = (acc, cur) => Math.max(acc.x, cur.x)
+
+      expect(arr.reduceRight((acc, cur) => acc + cur)).to.be.equal(10)
+      expect(arr.reduceRight((acc, cur) => acc + cur, 5)).to.be.equal(15)
+      expect(
+        new ArrayT(Array, [0, 1], [2, 3], [4, 5]).reduceRight((acc, cur) => acc.concat(cur))
+      ).to.be.eql([4, 5, 2, 3, 0, 1])
+      expect(new ArrayT('number').reduceRight((acc, cur) => acc + cur, 3)).to.be.equal(3)
+      expect(new ArrayT('number', 2).reduceRight((acc, cur) => acc + cur)).to.be.equal(2)
+      expect(new ArrayT('number', 1).reduceRight((acc, cur) => acc + cur, 2)).to.be.equal(3)
+      expect(new ArrayT('object', { x: 2 }, { x: 22 }, { x: 42 }).reduceRight(maxCallback)).to.be.NaN()
+      expect(new ArrayT('object', { x: 2 }, { x: 22 }).reduceRight(maxCallback)).to.be.equal(22)
+      expect(new ArrayT('object', { x: 2 }).reduceRight(maxCallback)).to.be.eql({ x: 2 })
+    })
+
+    it('reduceRight - it should not fail when type changes', () => {
+      expect(() => {
+        new ArrayT('number', 0, 1, 2, 3).reduceRight((acc, value) => {
+          acc[value] = true
+          return acc
+        }, {})
+      }).not.to.throw()
+    })
+
+    it('reduceRight - it support changes on initial array (modifying, appending, and deleting)', () => {
+      const arr = new ArrayT('number', 0, 1, 2, 3)
+      const store = []
+      const len = arr.length
+      const res = arr.reduceRight((acc, value, index, array) => {
+        array.push(index + len)
+        store.push(value)
+        return value - 1
+      })
+      expect(res).to.be.equal(-1)
+      expect(store).to.be.eql([2, 1, 0])
+      expect(arr.toArray()).to.be.eql([0, 1, 2, 3, 6, 5, 4])
+    })
+
     it('toString - to string method should be like in arrays', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
