@@ -661,6 +661,91 @@ module.exports = () => {
       expect(animals.slice(-3, -1).toArray()).to.be.eql(['camel', 'duck'])
       expect(animals.toArray()).to.be.eql(['ant', 'bison', 'camel', 'duck', 'elephant'])
     })
+    it('some - it return false in case if all items matches the rule', () => {
+      const arr = new ArrayT('number', 1, 30, 39, 29, 10, 13)
+
+      function isBelowThreshold (currentValue) {
+        return currentValue < 1
+      }
+
+      expect(arr.some(isBelowThreshold)).to.be.false()
+      expect(arr.some(function (currentValue) { return currentValue < 1 })).to.be.false()
+      expect(arr.some((currentValue) => currentValue < 1)).to.be.false()
+    })
+
+    it('some - it return true in case if at least one item fails the rule', () => {
+      const arr = new ArrayT('number', 1, 30, 39, 29, 10, 13)
+
+      function isBelowThreshold (currentValue) {
+        return currentValue < 20
+      }
+
+      expect(arr.some(isBelowThreshold)).to.be.true()
+      expect(arr.some(function (currentValue) { return currentValue < 20 })).to.be.true()
+      expect(arr.some((currentValue) => currentValue < 20)).to.be.true()
+    })
+
+    it('some - it support all arguments like arrays', () => {
+      const arr = new ArrayT('number', 1, 30, 39, 29, 10, 13)
+      const primitive = [1, 30, 39, 29, 10, 13]
+
+      expect(
+        arr.some(function (value, index, array) {
+          expect(value).to.be.equal(primitive[index])
+          expect(index).to.be.a('number')
+          expect(array).to.be.equal(arr)
+          expect(this).to.be.equal('test')
+
+          return value < 15
+        }, 'test')
+      ).to.be.true()
+
+      expect(
+        arr.some((value, index, array) => {
+          expect(value).to.be.equal(primitive[index])
+          expect(index).to.be.a('number')
+          expect(array).to.be.equal(arr)
+          expect(this).not.to.be.equal('test')
+
+          return value < 15
+        }, 'test')
+      ).to.be.true()
+    })
+
+    it('some - it support changes on initial array (modifying, appending, and deleting)', () => {
+      let arr = new ArrayT('number', 1, 2, 3, 4)
+      // modify
+      expect(
+        arr.some((elem, index, arr) => {
+          arr[index + 1] -= 3
+          return elem < 2
+        })
+      ).to.be.equal(true)
+
+      arr = new ArrayT('number', 1, 2, 3)
+      // append
+      let i = 0
+      expect(
+        arr.some((elem, index, arr) => {
+          arr.push(4)
+          i = index
+          return elem > 2
+        })
+      ).to.be.true()
+      expect(i).to.be.equal(2)
+
+      // delete
+      arr = new ArrayT('number', 1, 2, 3, 4)
+      i = 0
+      expect(
+        arr.some((elem, index, arr) => {
+          arr.pop()
+          i = index
+          return elem > 2
+        })
+      ).to.be.false()
+      expect(i).to.be.equal(1)
+    })
 
     it('toString - to string method should be like in arrays', () => {
       const numArray = new ArrayT('number')
