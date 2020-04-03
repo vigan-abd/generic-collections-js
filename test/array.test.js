@@ -348,7 +348,7 @@ module.exports = () => {
       expect(new ArrayT('boolean', false, false).includes(true)).to.be.false()
     })
 
-    it('includes - it should work also with second index', () => {
+    it('includes - it should work also with index param', () => {
       const arr = new ArrayT('string', 'a', 'b', 'c')
       expect(arr.includes('c', 1)).to.be.true()
       expect(arr.includes('c', 3)).to.be.false()
@@ -356,6 +356,39 @@ module.exports = () => {
       expect(arr.includes('b', -100)).to.be.true()
       expect(arr.includes('c', -100)).to.be.true()
       expect(arr.includes('a', -2)).to.be.false()
+    })
+
+    it('indexOf - it should return index position if array includes element', () => {
+      expect(new ArrayT('number', 1, 2, 3).indexOf(3)).to.be.equal(2)
+      expect(new ArrayT('number', 2, 9, 9).indexOf(9)).to.be.equal(1)
+      expect(new ArrayT('string', 'a', 'b', 'c').indexOf('b')).to.be.equal(1)
+      expect(new ArrayT('boolean', true, false).indexOf(false)).to.be.equal(1)
+      expect(new ArrayT('boolean', true, false).indexOf(true)).to.be.equal(0)
+    })
+
+    it('indexOf - it should return -1 if array doesn\'t include element', () => {
+      expect(new ArrayT('number', 1, 2, 3).indexOf(5)).to.be.equal(-1)
+      expect(new ArrayT('string', 'a', 'b', 'c').indexOf('d')).to.be.equal(-1)
+      expect(new ArrayT('boolean', false, false).indexOf(true)).to.be.equal(-1)
+    })
+
+    it('indexOf - it should work also with start index param', () => {
+      const arr = new ArrayT('number', 2, 9, 9)
+      expect(arr.indexOf(2)).to.be.equal(0)
+      expect(arr.indexOf(7)).to.be.equal(-1)
+      expect(arr.indexOf(9, 2)).to.be.equal(2)
+      expect(arr.indexOf(2, -1)).to.be.equal(-1)
+      expect(arr.indexOf(2, -3)).to.be.equal(0)
+
+      const indices = new ArrayT('number')
+      const array = new ArrayT('string', 'a', 'b', 'a', 'c', 'a', 'd')
+      const element = 'a'
+      let idx = array.indexOf(element)
+      while (idx !== -1) {
+        indices.push(idx)
+        idx = array.indexOf(element, idx + 1)
+      }
+      expect(indices.toArray()).to.be.eql([0, 2, 4])
     })
 
     it('push - it should work when the type is correct', () => {
