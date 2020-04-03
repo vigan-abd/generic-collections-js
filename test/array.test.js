@@ -402,6 +402,22 @@ module.exports = () => {
       expect(arr2.join(';')).to.be.equal(arr2.toArray().join(';'))
     })
 
+    it('keys - it should behave like arrays', () => {
+      const arr = new ArrayT('string', 'a', 'b', 'c')
+      const iter = arr.keys()
+
+      expect(iter.next()).to.be.eql({ value: 0, done: false })
+      expect(iter.next()).to.be.eql({ value: 1, done: false })
+      expect(iter.next()).to.be.eql({ value: 2, done: false })
+      expect(iter.next()).to.be.eql({ value: undefined, done: true })
+
+      let i = 0
+      for (const key of arr.keys()) {
+        expect(key).to.be.equal(i)
+        i++
+      }
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
