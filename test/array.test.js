@@ -649,6 +649,19 @@ module.exports = () => {
       expect(arr.shift()).to.be.undefined()
     })
 
+    it('slice - it should behave like arrays', () => {
+      const animals = new ArrayT('string', 'ant', 'bison', 'camel', 'duck', 'elephant')
+
+      expect(animals.slice(2).toArray()).to.be.eql(['camel', 'duck', 'elephant'])
+      expect(animals.slice(2, 4).toArray()).to.be.eql(['camel', 'duck'])
+      expect(animals.slice(1, 5).toArray()).to.be.eql(['bison', 'camel', 'duck', 'elephant'])
+      expect(animals.slice().toArray()).to.be.eql(animals.toArray())
+      expect(animals.slice(-2).toArray()).to.be.eql(['duck', 'elephant'])
+      expect(animals.slice(-3, 4).toArray()).to.be.eql(['camel', 'duck'])
+      expect(animals.slice(-3, -1).toArray()).to.be.eql(['camel', 'duck'])
+      expect(animals.toArray()).to.be.eql(['ant', 'bison', 'camel', 'duck', 'elephant'])
+    })
+
     it('toString - to string method should be like in arrays', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
