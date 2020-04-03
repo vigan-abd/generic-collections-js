@@ -418,6 +418,38 @@ module.exports = () => {
       }
     })
 
+    it('lastIndexOf - it should return index position if array includes element', () => {
+      expect(new ArrayT('number', 1, 2, 3).lastIndexOf(3)).to.be.equal(2)
+      expect(new ArrayT('number', 2, 9, 9).lastIndexOf(9)).to.be.equal(2)
+      expect(new ArrayT('string', 'a', 'b', 'c').lastIndexOf('b')).to.be.equal(1)
+      expect(new ArrayT('boolean', false, false).lastIndexOf(false)).to.be.equal(1)
+      expect(new ArrayT('boolean', true, false, true, false).lastIndexOf(true)).to.be.equal(2)
+    })
+
+    it('lastIndexOf - it should return -1 if array doesn\'t include element', () => {
+      expect(new ArrayT('number', 1, 2, 3).lastIndexOf(5)).to.be.equal(-1)
+      expect(new ArrayT('string', 'a', 'b', 'c').lastIndexOf('d')).to.be.equal(-1)
+      expect(new ArrayT('boolean', false, false).lastIndexOf(true)).to.be.equal(-1)
+    })
+
+    it('lastIndexOf - it should work also with start index param', () => {
+      const arr = new ArrayT('number', 2, 5, 9, 2)
+      expect(arr.lastIndexOf(2, 3)).to.be.equal(3)
+      expect(arr.lastIndexOf(2, 2)).to.be.equal(0)
+      expect(arr.lastIndexOf(2, -2)).to.be.equal(0)
+      expect(arr.lastIndexOf(2, -1)).to.be.equal(3)
+
+      const indices = new ArrayT('number')
+      const array = new ArrayT('string', 'a', 'b', 'a', 'c', 'a', 'd')
+      const element = 'a'
+      let idx = array.lastIndexOf(element)
+      while (idx !== -1) {
+        indices.push(idx)
+        idx = (idx > 0 ? array.lastIndexOf(element, idx - 1) : -1)
+      }
+      expect(indices.toArray()).to.be.eql([4, 2, 0])
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
