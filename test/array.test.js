@@ -494,6 +494,42 @@ module.exports = () => {
       expect(arr.toArray()).to.be.eql([0, 1, 2, 3, 4, 5, 6, 7])
     })
 
+    it('mapRaw - it should behave like arrays', () => {
+      const arr = new ArrayT('number', 0, 1, 2, 3)
+      let i = 0
+      const res = arr.mapRaw(function (value, index, array) {
+        expect(this).to.be.equal('test')
+        expect(value).to.be.equal(i)
+        expect(index).to.be.equal(i)
+        expect(array).to.be.equal(arr)
+        i++
+        return Math.pow(value, 2)
+      }, 'test')
+      expect(res).to.be.an('array')
+      expect(res).to.be.eql([0, 1, 4, 9])
+    })
+
+    it('mapRaw - it should not fail when type changes', () => {
+      expect(() => {
+        new ArrayT('number', 0, 1, 2, 3).mapRaw((value) => value.toString())
+      }).not.to.throw()
+    })
+
+    it('mapRaw - it support changes on initial array (modifying, appending, and deleting)', () => {
+      const arr = new ArrayT('number', 0, 1, 2, 3)
+      const store = []
+      const len = arr.length
+      const res = arr.mapRaw((value, index, array) => {
+        array.push(index + len)
+        store.push(value)
+        return value - 1
+      })
+      expect(res).to.be.an('array')
+      expect(res).to.be.eql([-1, 0, 1, 2])
+      expect(store).to.be.eql([0, 1, 2, 3])
+      expect(arr.toArray()).to.be.eql([0, 1, 2, 3, 4, 5, 6, 7])
+    })
+
     it('push - it should work when the type is correct', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
