@@ -28,6 +28,40 @@ module.exports = () => {
       expect(personCollection[1].name).to.be.equal('jane doe')
     })
 
+    it('for loop - for loop should work like in primitive arrays', () => {
+      const numArray = new ArrayT('number')
+      numArray.push(2, 3)
+      const otherArray = [2, 3]
+
+      for (let i = 0; i < numArray.length; i++) {
+        expect(numArray[i]).to.be.equal(otherArray[i])
+      }
+    })
+
+    it('for of loop - for of loop should work like in primitive arrays', () => {
+      const numArray = new ArrayT('number')
+      numArray.push(2, 3)
+
+      const otherArray = [2, 3]
+
+      let i = 0
+      for (const item of numArray) {
+        expect(item).to.be.equal(otherArray[i])
+        i++
+      }
+    })
+
+    it('for in loop - for in loop should work like in primitive arrays', () => {
+      const numArray = new ArrayT('number')
+      numArray.push(2, 3)
+
+      let i = 0
+      for (const key in numArray) {
+        expect(key).to.be.equal(i.toString())
+        i++
+      }
+    })
+
     it('concat - it should fail contating invalid types', () => {
       const arr = new ArrayT('number', 1, 2)
       expect(() => arr.concat([3, 4], '5')).to.throw() // 5 throws
@@ -878,40 +912,6 @@ module.exports = () => {
       const primArr = ['a', 'b', 'c']
       for (const val of arr.values()) {
         expect(val).to.be.equal(primArr[i])
-        i++
-      }
-    })
-
-    it('for loop - for loop should work like in primitive arrays', () => {
-      const numArray = new ArrayT('number')
-      numArray.push(2, 3)
-      const otherArray = [2, 3]
-
-      for (let i = 0; i < numArray.length; i++) {
-        expect(numArray[i]).to.be.equal(otherArray[i])
-      }
-    })
-
-    it('for of loop - for of loop should work like in primitive arrays', () => {
-      const numArray = new ArrayT('number')
-      numArray.push(2, 3)
-
-      const otherArray = [2, 3]
-
-      let i = 0
-      for (const item of numArray) {
-        expect(item).to.be.equal(otherArray[i])
-        i++
-      }
-    })
-
-    it('for in loop - for in loop should work like in primitive arrays', () => {
-      const numArray = new ArrayT('number')
-      numArray.push(2, 3)
-
-      let i = 0
-      for (const key in numArray) {
-        expect(key).to.be.equal(i.toString())
         i++
       }
     })
