@@ -436,6 +436,35 @@ module.exports = () => {
       expect(indices.toArray()).to.be.eql([0, 2, 4])
     })
 
+    it('isArray - it should return true if all items inside iterable match type', () => {
+      expect(ArrayT.isArray('number', new ArrayT('number', 1, 2))).to.be.true()
+      expect(ArrayT.isArray('number', new ArrayT('number'))).to.be.true()
+      expect(ArrayT.isArray(Person, [new Person('foo'), new Person('bar')])).to.be.true()
+      expect(ArrayT.isArray('boolean', new Set([true, false]))).to.be.true()
+      expect(ArrayT.isArray(Array, new Map([['1', 2], ['3', 4]]))).to.be.true()
+    })
+
+    it('isArray - it should return false if at least one item inside iterable doesn\'t match type', () => {
+      expect(ArrayT.isArray('number', new ArrayT('string', '1', '2'))).to.be.false()
+      expect(ArrayT.isArray('number', new ArrayT('string'))).to.be.false()
+      expect(ArrayT.isArray(Person, [new Person('foo'), { name: 'bar' }])).to.be.false()
+      expect(ArrayT.isArray(Boolean, new Set([true, false, Boolean]))).to.be.false()
+      expect(ArrayT.isArray('number', { length: 33 })).to.be.false()
+    })
+
+    it('isArrayT - it should return true if value is instance of ArrayT', () => {
+      class ArrayB extends ArrayT {}
+      expect(ArrayT.isArrayT(new ArrayT('number', 1, 2))).to.be.true()
+      expect(ArrayT.isArrayT(new ArrayB('number'))).to.be.true()
+    })
+
+    it('isArrayT - it should return false if value isn\'t instance of ArrayT', () => {
+      expect(ArrayT.isArrayT(new Array(10))).to.be.false()
+      expect(ArrayT.isArrayT([1, 2, 3])).to.be.false()
+      expect(ArrayT.isArrayT(new Set([true, false, Boolean]))).to.be.false()
+      expect(ArrayT.isArrayT({ length: 2, 0: 1, 1: 2 })).to.be.false()
+    })
+
     it('join - it should behave like arrays', () => {
       const arr1 = new ArrayT('string', 'Wind', 'Water', 'Fire')
       expect(arr1.join()).equal(arr1.toArray().join()) // 'Wind,Water,Fire'

@@ -557,6 +557,31 @@ class ArrayT extends GenericType {
     return str + this[last].toLocaleString(locales, options)
   }
 
+  // #### Static methods ####//
+  /**
+   * @param {string|Function} type
+   * @param  {any} value
+   * @returns {boolean}
+   */
+  static isArray (type, value) {
+    if (ArrayT.isArrayT(value)) return value.getType() === type
+    if (!value[Symbol.iterator]) return false
+
+    for (const item of value) {
+      if (!GenericType.isTypeOf(type, item)) return false
+    }
+
+    return true
+  }
+
+  /**
+   * @param  {any} value
+   * @returns {boolean}
+   */
+  static isArrayT (value) {
+    return value instanceof ArrayT
+  }
+
   // #### Extended methods ####//
   /**
    * @returns {ArrayT}
