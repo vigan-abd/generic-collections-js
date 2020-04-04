@@ -1,3 +1,7 @@
+# 0.0.9
+- tests: added tests for includes, indexOf, join, keys, lastIndexOf, length, map, mapRaw, pop, reduce, reduceRight, reverse, shift, slice, some, sort, splice methods on ArrayT
+- fix: fixed ixed overflow issue in splice method
+
 # 0.0.5
 - tests: added tests for filter, find, findIndex, forEach methods on ArrayT
 - fix: fixed length issue on methods that accept current array in callback
