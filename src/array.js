@@ -628,8 +628,6 @@ class ArrayT extends GenericType {
       }
     }
 
-    console.log(res)
-
     return res
   }
 
