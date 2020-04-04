@@ -865,6 +865,23 @@ module.exports = () => {
       }).to.throw()
     })
 
+    it('values - it should behave like arrays', () => {
+      const arr = new ArrayT('string', 'a', 'b', 'c')
+      const iter = arr.values()
+
+      expect(iter.next()).to.be.eql({ value: 'a', done: false })
+      expect(iter.next()).to.be.eql({ value: 'b', done: false })
+      expect(iter.next()).to.be.eql({ value: 'c', done: false })
+      expect(iter.next()).to.be.eql({ value: undefined, done: true })
+
+      let i = 0
+      const primArr = ['a', 'b', 'c']
+      for (const val of arr.values()) {
+        expect(val).to.be.equal(primArr[i])
+        i++
+      }
+    })
+
     it('for loop - for loop should work like in primitive arrays', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
