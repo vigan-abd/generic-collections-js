@@ -765,6 +765,54 @@ module.exports = () => {
       ).to.be.eql(['adieu', 'café', 'communiqué', 'éclair', 'premier', 'réservé'])
     })
 
+    it('splice - it should behave like arrays', () => {
+      const arr = new ArrayT('string', 'Jan', 'March', 'April', 'June')
+      expect(arr.splice(1, 0, 'Feb').toArray()).to.be.eql([])
+      expect(arr.toArray()).to.be.eql(['Jan', 'Feb', 'March', 'April', 'June'])
+      expect(arr.splice(4, 1, 'May').toArray()).to.be.eql(['June'])
+      expect(arr.toArray()).to.be.eql(['Jan', 'Feb', 'March', 'April', 'May'])
+
+      let myFish = new ArrayT('string', 'angel', 'clown', 'mandarin', 'sturgeon')
+      let removed = myFish.splice(2, 0, 'drum')
+      expect(myFish.toArray()).to.be.eql(['angel', 'clown', 'drum', 'mandarin', 'sturgeon'])
+      expect(removed.toArray()).to.be.eql([])
+
+      myFish = new ArrayT('string', 'angel', 'clown', 'mandarin', 'sturgeon')
+      removed = myFish.splice(2, 0, 'drum', 'guitar')
+      expect(myFish.toArray()).to.be.eql(['angel', 'clown', 'drum', 'guitar', 'mandarin', 'sturgeon'])
+      expect(removed.toArray()).to.be.eql([])
+
+      myFish = new ArrayT('string', 'angel', 'clown', 'drum', 'mandarin', 'sturgeon')
+      removed = myFish.splice(3, 1)
+      expect(myFish.toArray()).to.be.eql(['angel', 'clown', 'drum', 'sturgeon'])
+      expect(removed.toArray()).to.be.eql(['mandarin'])
+
+      myFish = new ArrayT('string', 'angel', 'clown', 'drum', 'sturgeon')
+      removed = myFish.splice(2, 1, 'trumpet')
+      expect(myFish.toArray()).to.be.eql(['angel', 'clown', 'trumpet', 'sturgeon'])
+      expect(removed.toArray()).to.be.eql(['drum'])
+
+      myFish = new ArrayT('string', 'angel', 'clown', 'trumpet', 'sturgeon')
+      removed = myFish.splice(0, 2, 'parrot', 'anemone', 'blue')
+      expect(myFish.toArray()).to.be.eql(['parrot', 'anemone', 'blue', 'trumpet', 'sturgeon'])
+      expect(removed.toArray()).to.be.eql(['angel', 'clown'])
+
+      myFish = new ArrayT('string', 'parrot', 'anemone', 'blue', 'trumpet', 'sturgeon')
+      removed = myFish.splice(2, 2)
+      expect(myFish.toArray()).to.be.eql(['parrot', 'anemone', 'sturgeon'])
+      expect(removed.toArray()).to.be.eql(['blue', 'trumpet'])
+
+      myFish = new ArrayT('string', 'angel', 'clown', 'mandarin', 'sturgeon')
+      removed = myFish.splice(-2, 1)
+      expect(myFish.toArray()).to.be.eql(['angel', 'clown', 'sturgeon'])
+      expect(removed.toArray()).to.be.eql(['mandarin'])
+
+      myFish = new ArrayT('string', 'angel', 'clown', 'mandarin', 'sturgeon')
+      removed = myFish.splice(2)
+      expect(myFish.toArray()).to.be.eql(['angel', 'clown'])
+      expect(removed.toArray()).to.be.eql(['mandarin', 'sturgeon'])
+    })
+
     it('toString - to string method should be like in arrays', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
