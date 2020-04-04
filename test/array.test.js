@@ -62,6 +62,17 @@ module.exports = () => {
       }
     })
 
+    it('clone - it should clone the array on first level', () => {
+      const arr = new ArrayT('number', 1, 2, 3, 4)
+      const clone = arr.clone()
+      expect(arr).not.to.equal(clone)
+      expect(arr.toArray()).to.eql(clone.toArray())
+
+      arr[1] = 47
+      expect(arr[1]).not.to.equal(clone[1])
+      expect(clone[1]).to.be.equal(2)
+    })
+
     it('concat - it should fail contating invalid types', () => {
       const arr = new ArrayT('number', 1, 2)
       expect(() => arr.concat([3, 4], '5')).to.throw() // 5 throws
