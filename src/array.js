@@ -544,15 +544,17 @@ class ArrayT extends GenericType {
   }
 
   /**
+   * @param {string|string[]} locales
+   * @param {object} options
    * @returns {string}
    */
-  toLocaleString () {
+  toLocaleString (locales = null, options = {}) {
     let str = ''
     const last = this.length - 1
     for (let i = 0; i < last; i++) {
-      str += this[i].toLocaleString() + ','
+      str += this[i].toLocaleString(locales, options) + ','
     }
-    return str + this[last].toLocaleString()
+    return str + this[last].toLocaleString(locales, options)
   }
 
   // #### Extended methods ####//
