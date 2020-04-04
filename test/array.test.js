@@ -747,6 +747,24 @@ module.exports = () => {
       expect(i).to.be.equal(1)
     })
 
+    it('sort - it should behave like arrays', () => {
+      const months = new ArrayT('string', 'March', 'Jan', 'Feb', 'Dec')
+      expect(months.sort().toArray()).to.be.eql(['Dec', 'Feb', 'Jan', 'March'])
+      expect(months.toArray()).to.be.eql(['Dec', 'Feb', 'Jan', 'March'])
+
+      const numArray = new ArrayT('number', 1, 30, 4, 21, 100000)
+      expect(numArray.sort().toArray()).to.be.eql([1, 100000, 21, 30, 4])
+
+      expect(
+        new ArrayT('number', 4, 2, 5, 1, 3).sort((a, b) => a - b).toArray()
+      ).to.be.eql([1, 2, 3, 4, 5])
+
+      expect(
+        new ArrayT('string', 'réservé', 'premier', 'communiqué', 'café', 'adieu', 'éclair')
+          .sort((a, b) => a.localeCompare(b)).toArray()
+      ).to.be.eql(['adieu', 'café', 'communiqué', 'éclair', 'premier', 'réservé'])
+    })
+
     it('toString - to string method should be like in arrays', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
