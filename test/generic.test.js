@@ -39,14 +39,28 @@ module.exports = () => {
       expect(new GenericType(Buffer).getType()).to.be.equal(Buffer)
     })
 
-    it('verifyType - it should throw on invalid types', () => {
-      expect(() => { new GenericType('number').verifyType('33') }).to.throw('ERR_INVALID_VALUE_TYPE')
-      expect(() => { new GenericType(Buffer).verifyType([0x33]) }).to.throw('ERR_INVALID_VALUE_TYPE')
+    it('isTypeOf - it should return false on invalid types', () => {
+      expect(GenericType.isTypeOf('number', '33')).to.be.false()
+      expect(GenericType.isTypeOf(Buffer, [0x33])).to.be.false()
+      expect(GenericType.isTypeOf(Boolean, false)).to.be.false()
+    })
+
+    it('isTypeOf - it should return true on valid types', () => {
+      expect(GenericType.isTypeOf('number', 33)).to.be.true()
+      expect(GenericType.isTypeOf(Buffer, Buffer.from([0x33]))).to.be.true()
+      expect(GenericType.isTypeOf('boolean', false)).to.be.true()
     })
 
     it('verifyType - it should throw on invalid types', () => {
+      expect(() => { new GenericType('number').verifyType('33') }).to.throw('ERR_INVALID_VALUE_TYPE')
+      expect(() => { new GenericType(Buffer).verifyType([0x33]) }).to.throw('ERR_INVALID_VALUE_TYPE')
+      expect(() => { new GenericType(Boolean).verifyType(false) }).to.throw('ERR_INVALID_VALUE_TYPE')
+    })
+
+    it('verifyType - it should not throw on valid types', () => {
       expect(() => { new GenericType('number').verifyType(33) }).not.to.throw()
       expect(() => { new GenericType(Buffer).verifyType(Buffer.from([0x33])) }).not.to.throw()
+      expect(() => { new GenericType('boolean').verifyType(false) }).not.to.throw()
     })
   })
 }
