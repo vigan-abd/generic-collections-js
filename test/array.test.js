@@ -823,6 +823,18 @@ module.exports = () => {
       expect(personCollection.toString()).to.be.equal('name: john doe,name: jane doe')
     })
 
+    it('toLocaleString - to string method should be like in arrays', () => {
+      const dateArray = new ArrayT(Date, new Date('21 Dec 1997 14:12:00 UTC'))
+      expect(
+        dateArray.toLocaleString('en', { timeZone: 'UTC' })
+      ).to.be.equal('12/21/1997, 2:12:00 PM')
+
+      const numArray = new ArrayT('number', 500, 8123, 12)
+      expect(
+        numArray.toLocaleString('ja-JP', { style: 'currency', currency: 'JPY' })
+      ).to.be.equal('¥500,¥8,123,¥12')
+    })
+
     it('toArray - it should convert it to primitive array', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
