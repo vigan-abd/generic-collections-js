@@ -853,6 +853,18 @@ module.exports = () => {
       expect(JSON.stringify(personCollection, null, 0)).to.be.equal('[{"name":"john doe"},{"name":"jane doe"}]')
     })
 
+    it('unshift - it should behave like arrays', () => {
+      const arr = new ArrayT('number', 1, 2, 3)
+      expect(arr.unshift(4, 5)).to.be.equal(5)
+      expect(arr.toArray()).to.be.eql([4, 5, 1, 2, 3])
+    })
+
+    it('unshift - it should throw on unsupported value', () => {
+      expect(() => {
+        new ArrayT('number', 1, 2, 3).unshift(1, 'a', 'b')
+      }).to.throw()
+    })
+
     it('for loop - for loop should work like in primitive arrays', () => {
       const numArray = new ArrayT('number')
       numArray.push(2, 3)
