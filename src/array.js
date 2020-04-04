@@ -364,7 +364,7 @@ class ArrayT extends GenericType {
     // delete
     const removed = new ArrayT(this.getType())
     for (let i = start; i < start + deleteCount; i++) {
-      if (start >= this.length) break
+      if (i >= this.length) break
       removed.push(this[i])
     }
 
