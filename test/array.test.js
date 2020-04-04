@@ -380,6 +380,64 @@ module.exports = () => {
       expect(arr.toArray()).to.be.eql([0, 1, 2, 3, 4, 5, 6, 7])
     })
 
+    it('from - it should support iterables', () => {
+      expect(ArrayT.from('number', 1, 2, 3)).to.be.instanceOf(ArrayT)
+      expect(ArrayT.from('string', 'foo').toArray()).to.be.eql(['f', 'o', 'o'])
+      expect(ArrayT.from('number', [1, 2, 3], x => x + x).toArray()).to.be.eql([2, 4, 6])
+      expect(
+        ArrayT.from('string', new Set(['foo', 'bar', 'baz', 'foo'])).toArray()
+      ).to.be.eql(['foo', 'bar', 'baz'])
+      expect(
+        ArrayT.from(Array, new Map([[1, 2], [2, 4], [4, 8]])).toArray()
+      ).to.be.eql([[1, 2], [2, 4], [4, 8]])
+      expect(
+        ArrayT.from('string', new Map([['1', 'a'], ['2', 'b']]).values()).toArray()
+      ).to.be.eql(['a', 'b'])
+      expect(
+        ArrayT.from('string', new Map([['1', 'a'], ['2', 'b']]).keys()).toArray()
+      ).to.be.eql(['1', '2'])
+    })
+
+    it('from - it should support objects with length property', () => {
+      expect(
+        ArrayT.from('number', { length: 5 }, (_, i) => i).toArray()
+      ).to.be.eql([0, 1, 2, 3, 4])
+    })
+
+    it('from - it should return empty array on unsupported object type', () => {
+      expect(ArrayT.from('string', { foo: 'bar' }).toArray()).to.be.eql([])
+    })
+
+    it('from - it should return empty array in case of negative length', () => {
+      expect(
+        ArrayT.from('number', { length: -3 }).toArray()
+      ).to.be.eql([])
+    })
+
+    it('from - it should return empty array in case of NaN length', () => {
+      expect(
+        ArrayT.from('number', { length: 'a3' }).toArray()
+      ).to.be.eql([])
+    })
+
+    it('from - it should throw an error in case of infinite length', () => {
+      expect(() => {
+        ArrayT.from('number', { length: Infinity }, (_, i) => i)
+      }).to.throw()
+    })
+
+    it('from - it should throw an error in case of invalid type', () => {
+      expect(() => {
+        ArrayT.from(typeof undefined, { length: 2 }).toArray()
+      }).to.be.throw()
+      expect(() => {
+        ArrayT.from('number', { length: 3 }, (v) => v)
+      }).to.throw()
+      expect(() => {
+        ArrayT.from('number', [1, 2, 3, '4'])
+      }).to.throw()
+    })
+
     it('includes - it should return true if array includes element', () => {
       expect(new ArrayT('number', 1, 2, 3).includes(2)).to.be.true()
       expect(new ArrayT('string', 'a', 'b', 'c').includes('b')).to.be.true()
@@ -453,7 +511,7 @@ module.exports = () => {
     })
 
     it('isArrayT - it should return true if value is instance of ArrayT', () => {
-      class ArrayB extends ArrayT {}
+      class ArrayB extends ArrayT { }
       expect(ArrayT.isArrayT(new ArrayT('number', 1, 2))).to.be.true()
       expect(ArrayT.isArrayT(new ArrayB('number'))).to.be.true()
     })
@@ -602,6 +660,13 @@ module.exports = () => {
       expect(res).to.be.eql([-1, 0, 1, 2])
       expect(store).to.be.eql([0, 1, 2, 3])
       expect(arr.toArray()).to.be.eql([0, 1, 2, 3, 4, 5, 6, 7])
+    })
+
+    it('of - it should generate an array from the values', () => {
+      expect(ArrayT.of('number', 1, 2, 3)).to.be.instanceOf(ArrayT)
+      expect(ArrayT.of('number', 1, 2, 3).toArray()).to.be.eql([1, 2, 3])
+      expect(ArrayT.of('number', 5).toArray()).to.be.eql([5])
+      expect(ArrayT.of('number').toArray()).to.be.eql([])
     })
 
     it('pop - it should behave like array', () => {

@@ -582,6 +582,57 @@ class ArrayT extends GenericType {
     return value instanceof ArrayT
   }
 
+  /**
+   * @param {string|Function} type
+   * @param  {...any} values
+   * @returns {ArrayT}
+   */
+  static of (type, ...values) {
+    return new ArrayT(type, ...values)
+  }
+
+  /**
+   * @param {string|Function} type
+   * @param {(value: any, index?: number, array?: ArrayT) => any} cb
+   * @param {*} thisArg
+   * @returns {ArrayT}
+   */
+  static from (type, values, cb = null, thisArg = null) {
+    const res = new ArrayT(type)
+    if (values[Symbol.iterator]) {
+      const it = values[Symbol.iterator]()
+      let next = it.next()
+      let i = 0
+      while (!next.done) {
+        if (cb) {
+          const mappedItem = thisArg ? cb.call(thisArg, next.value, i, res) : cb(next.value, i, res)
+          res.push(mappedItem)
+        } else {
+          res.push(next.value)
+        }
+        next = it.next()
+        i++
+      }
+    } else if (typeof values === 'object' && values.length) { // { length: x }
+      const length = Number(values.length)
+      if (Number.isNaN(length)) return res
+      if (!Number.isFinite(length)) throw new RangeError('Invalid array length')
+
+      for (let i = 0; i < length; i++) {
+        if (cb) {
+          const mappedItem = thisArg ? cb.call(thisArg, undefined, i, res) : cb(undefined, i, res)
+          res.push(mappedItem)
+        } else {
+          res.push(undefined)
+        }
+      }
+    }
+
+    console.log(res)
+
+    return res
+  }
+
   // #### Extended methods ####//
   /**
    * @returns {ArrayT}
